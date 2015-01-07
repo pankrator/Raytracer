@@ -7,5 +7,6 @@ Currently there is only one default scene. Later scene will be loaded from a fil
   * Export jar file from Eclipse for example.
   * Open Command window or Terminal and type ``java -jar renderer.jar server``. This will start the server.
   * In order to start a client open another Command window or Terminal and type ``java -jar renderer.jar client SERVER's IP``. In the place of SERVER's IP type IP of the machine that server is running.
+  * You can run it on your local machine if you don't have spare computers. For IP use 127.0.0.1
   
   

@@ -52,9 +52,6 @@ public class Scheduler {
 		} else {
 			currentX += TASK_WIDTH;
 		}
-//		numberOfWaitingTasks++;
-		
-//		this.tasks.add(task);
 		
 		return task;
 	}

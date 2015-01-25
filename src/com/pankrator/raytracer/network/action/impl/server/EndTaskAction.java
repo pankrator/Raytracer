@@ -41,8 +41,13 @@ public class EndTaskAction extends NextTask implements Action {
 			outputStream.write(CommandType.END_CONNECTION.getCode());
 		}
 		
-		
 		RayTracer.fillColors(taskResult.getPixels(), startX, startY, endX, endY);
+		
+		if (scheduler.getNumberOfTasks() < 2) {
+			synchronized (scheduler) {
+				scheduler.notify();
+			}			
+		}
 		InetAddress addr = socket.getInetAddress();
 		System.out.println("received startX " + startX + " startY " + startY + " endX " + endX + " endY " + endY + " from " + addr.getHostAddress());
 		

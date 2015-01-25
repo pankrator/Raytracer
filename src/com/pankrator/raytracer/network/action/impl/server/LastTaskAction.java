@@ -2,8 +2,6 @@ package com.pankrator.raytracer.network.action.impl.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import com.pankrator.raytracer.Color;
 import com.pankrator.raytracer.RayTracer;
@@ -37,10 +35,11 @@ public class LastTaskAction implements Action {
 		RayTracer.fillColors(taskResult.getPixels(), startX, startY, endX, endY);
 
 		this.taskResult.setPixels(new Color[Scheduler.TASK_WIDTH][Scheduler.TASK_HEIGHT]);
-
-		while (this.scheduler.getNumberOfWaitingTasks() > 0) {
-			System.out.println(this.scheduler
-					.getNumberOfWaitingTasks());
+		
+		synchronized (scheduler) {
+			while (this.scheduler.getNumberOfWaitingTasks() > 0) {
+				this.scheduler.wait();
+			}
 		}
 		RayTracer.computeAntialiasing();
 		RayTracer.saveRenderedImage();

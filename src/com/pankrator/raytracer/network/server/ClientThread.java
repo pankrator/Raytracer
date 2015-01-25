@@ -25,7 +25,7 @@ public class ClientThread extends Thread {
 	private DataOutputStream outputStream;
 	private DataInputStream inputStream;
 	private Scheduler scheduler;
-
+	
 	private TaskResult taskResult;
 
 	private long startTaskTime = 0;

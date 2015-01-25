@@ -22,11 +22,12 @@ public class NextTask implements Action {
 	@Override
 	public boolean doAction() throws IOException {
 		Task task = scheduler.getNextTask(0);
-		task.setStartTime(System.currentTimeMillis());
-		System.out.println("Sending task");
+		System.out.println("Sending task");		
 		if (task == null) {
 			return false;
 		}
+		
+		task.setStartTime(System.currentTimeMillis());
 		lastSentTask = task;
 		
 		outputStream.write(CommandType.NEXT_TASK.getCode());

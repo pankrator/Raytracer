@@ -115,4 +115,20 @@ public class Vector {
 		result.normalize();
 		return result;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		Vector o = (Vector)obj;
+		if (o.x == this.x && o.y == this.y && o.z == this.z) {
+			return true;
+		}
+		
+		return false;
+	}
 }

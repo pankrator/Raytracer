@@ -14,7 +14,6 @@ public class Task {
 		this.startY = y;
 		this.width = width;
 		this.height = height;
-		this.startTime = System.currentTimeMillis();
 	}
 	
 	@Override

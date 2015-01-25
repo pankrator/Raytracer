@@ -12,21 +12,13 @@ public class Main {
 	private static Client client;
 	
 	public static void main(String[] args) throws IOException { //TODO Catch IOException		
-//		RayTracer.generateDefaultScene();
-//		Color result[][] = RayTracer.render(0, 0, RayTracer.screenSize.width, RayTracer.screenSize.height);
-//		RayTracer.fillColors(result, 0, 0, RayTracer.screenSize.width, RayTracer.screenSize.height);
-//		RayTracer.computeAntialiasing();
-//		RayTracer.saveRenderedImage();
-		
-		
 		String type = "server";
-		String scenePath = "";
+		String scenePath = null;
 		if (args.length > 0) {
 			type = args[0];
-			scenePath = null;
-			if (args.length > 1) {
-				scenePath = args[1];
-			}			
+		}
+		if (args.length > 1) {
+			scenePath = args[1];
 		}
 		
 		switch(type) {
@@ -35,12 +27,21 @@ public class Main {
 			server = new Server();
 			server.startServer();
 			server.listen(s);
+			server.close();
 			break;
 			
-		case "client":
+		case "client":	
 			client = new Client();
 			client.connect(scenePath, 8095);
 			client.start();
+			break;
+		
+		case "local":
+			RayTracer.generateDefaultScene();
+			Color result[][] = RayTracer.render(0, 0, RayTracer.screenSize.width, RayTracer.screenSize.height);
+			RayTracer.fillColors(result, 0, 0, RayTracer.screenSize.width, RayTracer.screenSize.height);
+			RayTracer.computeAntialiasing();
+			RayTracer.saveRenderedImage();
 			break;
 		}
 	}

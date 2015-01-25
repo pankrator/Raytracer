@@ -114,6 +114,23 @@ public class Color {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (this == obj) {
+			return true;
+		}
+		
+		Color o = (Color)obj;
+		if (o.r == this.r && o.g == this.g && o.b == this.b) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
 	public String toString() {
 		return "R: " + this.r + " G: " + this.g + " B: " + this.b;	
 	}

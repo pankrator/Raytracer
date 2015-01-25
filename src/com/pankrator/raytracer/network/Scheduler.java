@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Scheduler {
 	
-	private static final int TASK_WIDTH = 120;
-	private static final int TASK_HEIGHT = 120;
+	public static final int TASK_WIDTH = 120;
+	public static final int TASK_HEIGHT = 120;
 	private static final long MAXIMUM_TASK_TIME = 1000 * 20;
 	
 	private int currentX;
@@ -15,7 +15,6 @@ public class Scheduler {
 	private int numberOfWaitingTasks;
 	
 	private Dimension dimensions;
-	
 	private List<Task> tasks;
 
 	public Scheduler(Dimension dim) {
@@ -67,18 +66,8 @@ public class Scheduler {
 		}
 	}
 	
-	public synchronized Task getAnyFreeTask() {
-		for (Task t : tasks) {
-			if (System.currentTimeMillis() - t.getStartTime() > MAXIMUM_TASK_TIME) {
-				return t;
-			}
-		}
-		
-		return null;
-	}
-	
-	public synchronized void removeTask(Task task) {
-		this.tasks.remove(task);
+	public synchronized void addNotFinishedTask(Task task) {
+		this.tasks.add(task);
 		this.numberOfWaitingTasks--;
 	}
 	
@@ -88,5 +77,9 @@ public class Scheduler {
 	
 	public int getNumberOfWaitingTasks() {
 		return this.numberOfWaitingTasks;
+	}
+	
+	public int getNumberOfTasks() {
+		return this.tasks.size();
 	}
 }

@@ -1,8 +1,5 @@
 package com.pankrator.raytracer.network.client;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,7 +7,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import com.pankrator.raytracer.Color;
-import com.pankrator.raytracer.Ray;
 import com.pankrator.raytracer.RayTracer;
 import com.pankrator.raytracer.network.CommandType;
 
@@ -36,9 +32,6 @@ public class Client {
 		RayTracer.generateDefaultScene();
 		outputStream = new DataOutputStream((socket.getOutputStream()));
 		inputStream = new DataInputStream((socket.getInputStream()));
-		
-//		socket.setReceiveBufferSize(256);
-		socket.setSendBufferSize(256);
 
 		outputStream.write(CommandType.CONNECT.getCode());
 
@@ -65,6 +58,8 @@ public class Client {
 				int width = inputStream.readInt();
 				int height = inputStream.readInt();
 				
+				int isLastTaskCode = inputStream.read();
+				CommandType lastTaskCommand = CommandType.getCommand(isLastTaskCode);
 				System.out.println("startX " + startX + " endX " + (startX + width) + " startY " + startY + " endY " + (startY + height));
 				
 				long startRenderTime = System.currentTimeMillis();
@@ -77,11 +72,12 @@ public class Client {
 				long endSendingTime = System.currentTimeMillis() - startSendingTime;
 				System.out.println("Sending time: " + endSendingTime);
 				
-				if (startX + width >= RayTracer.screenSize.width && startY + height >= RayTracer.screenSize.height) {
-					outputStream.write(CommandType.LAST_TASK.getCode());
+				if (lastTaskCommand != null) {
+					outputStream.write(CommandType.LAST_TASK.getCode());					
 				} else {
-					outputStream.write(CommandType.TASK_END.getCode());					
+					outputStream.write(CommandType.TASK_END.getCode());							
 				}
+				
 				outputStream.writeInt(startX);
 				outputStream.writeInt(startY);
 				outputStream.writeInt(startX + width);
@@ -94,7 +90,6 @@ public class Client {
 				System.out.println("No more tasks for me. Close connection");
 				socket.close();
 				return;
-//				outputStream.write(CommandType.END_CONNECTION.getCode());
 //				break;
 			default:
 				break;
